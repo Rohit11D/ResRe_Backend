@@ -9,7 +9,7 @@ const authRoutes = require('./routes/auth');
 const router = express.Router();
 const multer = require('multer');
 const resumeSchema = require('./models/Resume.js');
-const reviewSchema = require('./models/Review.js');
+
 const { protect, isExpert } = require('./middleware/authMiddleware');
 const userSchema = require('./models/User.js');
 dotenv.config();
