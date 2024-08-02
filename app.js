@@ -69,7 +69,7 @@ const upload = multer({ storage: storage });
 // Upload Resume
 app.post('/upload', protect, upload.single('resume'), async (req, res) => {
     try {
-        console.log('req.user:', req.user); // Debug log
+        // console.log('req.user:', req.user); // Debug log
 
         if (!req.user) {
             return res.status(401).json({ message: 'User not authenticated' });
