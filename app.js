@@ -24,7 +24,7 @@ app.use(express.json());
 
 // Enable CORS
 app.use(cors({
-    origin:'http://localhost:3000', // Adjust this to match your frontend URL
+    origin: 'https://mdtgmc-3000.csb.app', // Adjust this to match your frontend URL
     credentials: true,
 }));
 
@@ -134,47 +134,47 @@ app.post('/review/:id', protect, isExpert, async (req, res) => {
 });
 
 // Creating end point for registering the user
-app.post('/register',async(req,res)=>{
-    let check = await userSchema.findOne({email:req.body.email});
-    if(check){
-        return res.status(400).json({success:false,errors:"Email Already Exist"});
+app.post('/register', async (req, res) => {
+    let check = await userSchema.findOne({ email: req.body.email });
+    if (check) {
+        return res.status(400).json({ success: false, errors: "Email Already Exist" });
     }
 
     const user = new userSchema({
-        name:req.body.name,
-        email:req.body.email,
-        password:req.body.password,
-        role:req.body.role,
+        name: req.body.name,
+        email: req.body.email,
+        password: req.body.password,
+        role: req.body.role,
     })
     await user.save();
 
-    const data ={
-        user:{
-            id:user.id
+    const data = {
+        user: {
+            id: user.id
         }
     }
-    const token = jwt.sign(data,'secret_ecom');
-    res.json({success:true,token});
+    const token = jwt.sign(data, 'secret_ecom');
+    res.json({ success: true, token });
 })
 
 // Login user route
-app.post('/login',async(req,res)=>{
-    let user = await userSchema.findOne({email:req.body.email});
-    if(user){
+app.post('/login', async (req, res) => {
+    let user = await userSchema.findOne({ email: req.body.email });
+    if (user) {
         const passCompare = req.body.password === user.password;
-        if(passCompare){
+        if (passCompare) {
             const data = {
-                user:{
-                    id:user.id
+                user: {
+                    id: user.id
                 }
             }
-            const token = jwt.sign(data,'secret_ecom');
-            res.json({success:true,token,user});
-        }else{
-            res.json({success:false,errors:"wrong password"});
+            const token = jwt.sign(data, 'secret_ecom');
+            res.json({ success: true, token, user });
+        } else {
+            res.json({ success: false, errors: "wrong password" });
         }
-    }else{
-        res.json({success:false,errors:"Email does not Exist"});
+    } else {
+        res.json({ success: false, errors: "Email does not Exist" });
 
     }
 })
@@ -212,7 +212,7 @@ app.post('/resumes/review/:id', protect, isExpert, async (req, res) => {
 });
 
 
-const PORT =5000;
+const PORT = 5000;
 
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
