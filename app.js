@@ -9,7 +9,7 @@ const authRoutes = require('./routes/auth');
 const router = express.Router();
 const multer = require('multer');
 const resumeSchema = require('./models/Resume.js');
-
+const fs = require('fs'); // Import the 'fs' module
 const { protect, isExpert } = require('./middleware/authMiddleware');
 const userSchema = require('./models/User.js');
 dotenv.config();
@@ -91,8 +91,22 @@ app.post('/upload', protect, upload.single('resume'), async (req, res) => {
 
 // Static folder for resume uploads
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
-// Get All Resumes (For Experts)
 
+// // Serve the resume file
+// app.get('/uploads/:filename', protect, (req, res) => {
+//     const filePath = path.join(__dirname, 'uploads', req.params.filename);
+
+//     // Ensure the file exists
+//     if (fs.existsSync(filePath)) {
+//         res.setHeader('Content-Disposition', 'inline'); // This will display the file in the browser
+//         res.setHeader('Content-Type', 'application/pdf'); // Adjust if your resumes are not PDFs
+//         res.sendFile(filePath);
+//     } else {
+//         res.status(404).send('File not found');
+//     }
+// });
+
+// Get All Resumes (For Experts)
 app.get('/', protect, isExpert, async (req, res) => {
     try {
         const resumes = await resumeSchema.find().populate('student', 'name email');
