@@ -66,6 +66,9 @@ const storage = multer.diskStorage({
 });
 
 const upload = multer({ storage: storage });
+// Static folder for resume uploads
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+
 // Upload Resume
 app.post('/upload', protect, upload.single('resume'), async (req, res) => {
     try {
@@ -89,8 +92,7 @@ app.post('/upload', protect, upload.single('resume'), async (req, res) => {
     }
 });
 
-// Static folder for resume uploads
-app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+
 
 // // Serve the resume file
 // app.get('/uploads/:filename', protect, (req, res) => {

@@ -11,7 +11,7 @@ const protect = (req, res, next) => {
     try {
         const decoded = jwt.verify(token, process.env.JWT_SECRET || 'secret_ecom'); // Verify token
         req.user = decoded.user; // Set req.user
-        console.log('Decoded User:', req.user); // Debug log
+        // console.log('Decoded User:', req.user); // Debug log
         next();
     } catch (error) {
         res.status(401).json({ message: 'Token is not valid' });
